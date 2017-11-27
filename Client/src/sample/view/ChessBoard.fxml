@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+
+<VBox prefHeight="800.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ChessBoardController">
+  <children>
+    <MenuBar prefHeight="19.0" prefWidth="640.0" VBox.vgrow="NEVER">
+      <menus>
+        <Menu mnemonicParsing="false" text="File">
+          <items>
+            <MenuItem mnemonicParsing="false" text="New" />
+            <MenuItem mnemonicParsing="false" text="Open…" />
+            <Menu mnemonicParsing="false" text="Open Recent" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Close" />
+            <MenuItem mnemonicParsing="false" text="Save" />
+            <MenuItem mnemonicParsing="false" text="Save As…" />
+            <MenuItem mnemonicParsing="false" text="Revert" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Preferences…" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Quit" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Edit">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Undo" />
+            <MenuItem mnemonicParsing="false" text="Redo" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Cut" />
+            <MenuItem mnemonicParsing="false" text="Copy" />
+            <MenuItem mnemonicParsing="false" text="Paste" />
+            <MenuItem mnemonicParsing="false" text="Delete" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Select All" />
+            <MenuItem mnemonicParsing="false" text="Unselect All" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Help">
+          <items>
+            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="434.0" prefWidth="640.0" style="-fx-background-color: darkseagreen;" styleClass="white" stylesheets="@../style/chess.css" VBox.vgrow="ALWAYS">
+         <children>
+           <Rectangle fx:id="a8" fill="black" height="100.0" layoutX="180.0" layoutY="22.0" smooth="false" styleClass="black" width="100.0"/>
+           <Rectangle fx:id="b8" fill="aliceblue" layoutX="280.0" layoutY="22.0" height="100.0" width="100.0" styleClass="white"/>
+           <Rectangle fx:id="c8" fill="black" layoutX="380.0" layoutY="22.0" height="100.0" width="100.0" styleClass="black"/>
+           <Rectangle fx:id="d8" fill="aliceblue" layoutX="480.0" layoutY="22.0" height="100.0" width="100.0" styleClass="white"/>
+           <Rectangle fx:id="e8" fill="black" layoutX="580.0" layoutY="22.0" height="100.0" width="100.0" styleClass="black"/>
+           <Rectangle fx:id="f8" fill="aliceblue" layoutX="680.0" layoutY="22.0" height="100.0" width="100.0" styleClass="white"/>
+           <Rectangle fx:id="g8" fill="black" layoutX="780.0" layoutY="22.0" height="100.0" width="100.0" styleClass="black"/>
+           <Rectangle fx:id="h8" fill="aliceblue" layoutX="880.0" layoutY="22.0" height="100.0" width="100.0" styleClass="white"/>
+
+           <Rectangle fx:id="a7" fill="aliceblue" layoutX="180.0" layoutY="122.0" height="100.0" width="100.0" styleClass="white"/>
+           <Rectangle fx:id="b7" fill="black" layoutX="280.0" layoutY="122.0" height="100.0" width="100.0" styleClass="black"/>
+           <Rectangle fx:id="c7" fill="aliceblue" layoutX="380.0" layoutY="122.0" height="100.0" width="100.0" styleClass="white"/>
+           <Rectangle fx:id="d7" fill="black" layoutX="480.0" layoutY="122.0" height="100.0" width="100.0" styleClass="black"/>
+           <Rectangle fx:id="e7" fill="aliceblue" layoutX="580.0" layoutY="122.0" height="100.0" width="100.0" styleClass="white"/>
+           <Rectangle fx:id="f7" fill="black" layoutX="680.0" layoutY="122.0" height="100.0" width="100.0" styleClass="black"/>
+           <Rectangle fx:id="g7" fill="aliceblue" layoutX="780.0" layoutY="122.0" height="100.0" width="100.0" styleClass="white"/>
+           <Rectangle fx:id="h7" fill="black" layoutX="880.0" layoutY="122.0" height="100.0" width="100.0" styleClass="black"/>
+
+           <Rectangle fx:id="a6" fill="black" layoutX="180.0" layoutY="222.0" height="100.0" width="100.0" styleClass="black"/>
+           <Rectangle fx:id="b6" fill="aliceblue" layoutX="280.0" layoutY="222.0" height="100.0" width="100.0" styleClass="white"/>
+           <Rectangle fx:id="c6" fill="black" layoutX="380.0" layoutY="222.0" height="100.0" width="100.0" styleClass="black"/>
+           <Rectangle fx:id="d6" fill="aliceblue" layoutX="480.0" layoutY="222.0" height="100.0" width="100.0" styleClass="white"/>
+           <Rectangle fx:id="e6" fill="black" layoutX="580.0" layoutY="222.0" height="100.0" width="100.0" styleClass="black"/>
+           <Rectangle fx:id="f6" fill="aliceblue" layoutX="680.0" layoutY="222.0" height="100.0" width="100.0" styleClass="white"/>
+           <Rectangle fx:id="g6" fill="black" layoutX="780.0" layoutY="222.0" height="100.0" width="100.0" styleClass="black"/>
+           <Rectangle fx:id="h6" fill="aliceblue" layoutX="880.0" layoutY="222.0" height="100.0" width="100.0" styleClass="white"/>
+
+           <Rectangle fx:id="a5" fill="aliceblue" layoutX="180.0" layoutY="322.0" height="100.0" width="100.0" styleClass="white"/>
+           <Rectangle fx:id="b5" fill="black"  layoutX="280.0" layoutY="322.0" height="100.0" width="100.0" styleClass="black"/>
+           <Rectangle fx:id="c5" fill="aliceblue" layoutX="380.0" layoutY="322.0" height="100.0" width="100.0" styleClass="white"/>
+           <Rectangle fx:id="d5" fill="black" layoutX="480.0" layoutY="322.0" height="100.0" width="100.0" styleClass="black"/>
+           <Rectangle fx:id="e5" fill="aliceblue" layoutX="580.0" layoutY="322.0" height="100.0" width="100.0" styleClass="white"/>
+           <Rectangle fx:id="f5" fill="black" layoutX="680.0" layoutY="322.0" height="100.0" width="100.0" styleClass="black"/>
+           <Rectangle fx:id="g5" fill="aliceblue" layoutX="780.0" layoutY="322.0" height="100.0" width="100.0" styleClass="white"/>
+           <Rectangle fx:id="h5" fill="black" layoutX="880.0" layoutY="322.0" height="100.0" width="100.0" styleClass="black"/>
+
+           <Rectangle fx:id="a4" fill="black" layoutX="180.0" layoutY="422.0" height="100.0" width="100.0" styleClass="black"/>
+           <Rectangle fx:id="b4" fill="aliceblue" layoutX="280.0" layoutY="422.0" height="100.0" width="100.0" styleClass="white"/>
+           <Rectangle fx:id="c4" fill="black" layoutX="380.0" layoutY="422.0" height="100.0" width="100.0" styleClass="black"/>
+           <Rectangle fx:id="d4" fill="aliceblue" layoutX="480.0" layoutY="422.0" height="100.0" width="100.0" styleClass="white"/>
+           <Rectangle fx:id="e4" fill="black" layoutX="580.0" layoutY="422.0" height="100.0" width="100.0" styleClass="black"/>
+           <Rectangle fx:id="f4" fill="aliceblue" layoutX="680.0" layoutY="422.0" height="100.0" width="100.0" styleClass="white"/>
+           <Rectangle fx:id="g4" fill="black" layoutX="780.0" layoutY="422.0" height="100.0" width="100.0" styleClass="black"/>
+           <Rectangle fx:id="h4" fill="aliceblue" layoutX="880.0" layoutY="422.0" height="100.0" width="100.0" styleClass="white"/>
+
+           <Rectangle fx:id="a3" fill="aliceblue" layoutX="180.0" layoutY="522.0" height="100.0" width="100.0" styleClass="white"/>
+           <Rectangle fx:id="b3" fill="black" layoutX="280.0" layoutY="522.0" height="100.0" width="100.0" styleClass="black"/>
+           <Rectangle fx:id="c3" fill="aliceblue" layoutX="380.0" layoutY="522.0" height="100.0" width="100.0" styleClass="white"/>
+           <Rectangle fx:id="d3" fill="black" layoutX="480.0" layoutY="522.0" height="100.0" width="100.0" styleClass="black"/>
+           <Rectangle fx:id="e3" fill="aliceblue" layoutX="580.0" layoutY="522.0" height="100.0" width="100.0" styleClass="white"/>
+           <Rectangle fx:id="f3" fill="black" layoutX="680.0" layoutY="522.0" height="100.0" width="100.0" styleClass="black"/>
+           <Rectangle fx:id="g3" fill="aliceblue" layoutX="780.0" layoutY="522.0" height="100.0" width="100.0" styleClass="white"/>
+           <Rectangle fx:id="h3" fill="black" layoutX="880.0" layoutY="522.0" height="100.0" width="100.0" styleClass="black"/>
+
+           <Rectangle fx:id="a2" fill="black" layoutX="180.0" layoutY="622.0" height="100.0" width="100.0" styleClass="black"/>
+           <Rectangle fx:id="b2" fill="aliceblue" layoutX="280.0" layoutY="622.0" height="100.0" width="100.0" styleClass="white"/>
+           <Rectangle fx:id="c2" fill="black" layoutX="380.0" layoutY="622.0" height="100.0" width="100.0" styleClass="black"/>
+           <Rectangle fx:id="d2" fill="aliceblue" layoutX="480.0" layoutY="622.0" height="100.0" width="100.0" styleClass="white"/>
+           <Rectangle fx:id="e2" fill="black" layoutX="580.0" layoutY="622.0" height="100.0" width="100.0" styleClass="black"/>
+           <Rectangle fx:id="f2" fill="aliceblue" layoutX="680.0" layoutY="622.0" height="100.0" width="100.0" styleClass="white"/>
+           <Rectangle fx:id="g2" fill="black" layoutX="780.0" layoutY="622.0" height="100.0" width="100.0" styleClass="black"/>
+           <Rectangle fx:id="h2" fill="aliceblue" layoutX="880.0" layoutY="622.0" height="100.0" width="100.0" styleClass="white"/>
+
+           <Rectangle fx:id="a1" fill="aliceblue" layoutX="180.0" layoutY="722.0" height="100.0" width="100.0" styleClass="white"/>
+           <Rectangle fx:id="b1" fill="black" layoutX="280.0" layoutY="722.0" height="100.0" width="100.0" styleClass="black"/>
+           <Rectangle fx:id="c1" fill="aliceblue" layoutX="380.0" layoutY="722.0" height="100.0" width="100.0" styleClass="white"/>
+           <Rectangle fx:id="d1" fill="black" layoutX="480.0" layoutY="722.0" height="100.0" width="100.0" styleClass="black"/>
+           <Rectangle fx:id="e1" fill="aliceblue" layoutX="580.0" layoutY="722.0" height="100.0" width="100.0" styleClass="white"/>
+           <Rectangle fx:id="f1" fill="black" layoutX="680.0" layoutY="722.0" height="100.0" width="100.0" styleClass="black"/>
+           <Rectangle fx:id="g1" fill="aliceblue" layoutX="780.0" layoutY="722.0" height="100.0" width="100.0" styleClass="white"/>
+           <Rectangle fx:id="h1" fill="black" layoutX="880.0" layoutY="722.0" height="100.0" width="100.0" styleClass="black"/>
+
+         </children>
+    </AnchorPane>
+  </children>
+</VBox>
