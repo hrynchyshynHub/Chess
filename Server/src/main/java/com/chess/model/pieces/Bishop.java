@@ -1,5 +1,6 @@
 package com.chess.model.pieces;
 
+import com.chess.model.Board;
 import com.chess.model.Cell;
 import com.chess.util.Color;
 import com.chess.util.Move;
@@ -16,7 +17,7 @@ public class Bishop extends Piece{
     }
 
     @Override
-    public Cell move(Cell[][] state, Move move) {
+    public Cell move(Board board, Cell destinationCell) {
         return null;
     }
 

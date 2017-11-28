@@ -46,7 +46,7 @@ Server extends Thread{
     public static void main(String[] args) {
         try(ServerSocket serverSocket = new ServerSocket(5556, 0 , InetAddress.getByName("localhost"));){
             int i = 0;
-            while (true){
+            while (i <= 2){
                 new Server(serverSocket.accept(), i);
                 i++;
             }

@@ -1,9 +1,12 @@
 package com.chess.model;
 
 import com.chess.model.pieces.*;
+import com.chess.saver.AbstractSaver;
 import com.chess.util.Color;
 import com.chess.util.Move;
 import com.chess.util.Player;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,12 +16,15 @@ import java.util.Queue;
 /**
  * Created by ivan.hrynchyshyn on 15.11.2017.
  */
+@Getter
+@Setter
 public class Board {
    private Cell[][] cells = new Cell[8][8];
    private Player whitePlayer;
    private Player blackPlayer;
    private boolean isWin;
    private Queue<Move> moves = new PriorityQueue<>();
+   private AbstractSaver saver;
 
    private void initializeBoard() {
       boolean isWhite = true;
@@ -99,7 +105,8 @@ public class Board {
          System.out.println();
       }
    }
-   private Cell getCellById(String id){
+
+   public Cell getCellById(String id){
       Cell foundCell = null;
       for(int i = 0; i < 8; i++){
          for(int j =0 ; j < 8; j++){
@@ -109,27 +116,38 @@ public class Board {
       return foundCell;
    }
 
-
+   public List<Piece> getAvailablePieces(Color color){
+      List<Piece> availablePieces = new ArrayList<>();
+      for(int i = 0; i < 8; i++){
+         for(int j =0 ; j < 8; j++){
+            if(cells[i][j].getPiece() != null && cells[i][j].getPiece().isAvailable() && cells[i][j].getPiece().getColor() == color){
+               availablePieces.add(cells[i][j].getPiece());
+            }
+         }
+      }
+      return availablePieces;
+   }
 
    public static void main(String[] args) {
       Board board = new Board();
       board.initializeBoard();
       System.out.println("\n\n\n\n");
       board.showBoard();
-
       // get id from Client
-      Piece selectedPiece = board.getCellById("2a").getPiece();
-      if(selectedPiece.isAvailable()){
-         List<Cell> posibleMoves = selectedPiece.getAvailavleCellsToMove();
-         Cell selctedCell = board.getCellById("3a");
-         if(selctedCell.getPiece() == null) {
-            selctedCell.setPiece(selectedPiece);
-         }
-         else{
-            selctedCell.getPiece().setAvailable(false);
-            selctedCell.setPiece(selectedPiece);
-         }
-      }
+      Piece selectedPiece = board.getCellById("2b").getPiece();
+//      System.out.println(board.getAvailablePieces(Color.BLACK));
+      System.out.println("Available cell to move \n" + selectedPiece.getAvailableCellsToMove(board));
+      System.out.println("Move from 2b to 3b \n" + selectedPiece.move(board, board.getCellById("3b")));
+      System.out.println("Available cell to move \n" + selectedPiece.getAvailableCellsToMove(board));
+      System.out.println("Move from 3b to 4b \n" + selectedPiece.move(board, board.getCellById("4b")));
+      System.out.println("Available cell to move \n" + selectedPiece.getAvailableCellsToMove(board));
+      System.out.println("Move from 4b to 5b \n" + selectedPiece.move(board,  board.getCellById("5b")));
+      System.out.println("Available cell to move \n" + selectedPiece.getAvailableCellsToMove(board));
+      System.out.println("Move from 5b to 6b \n" + selectedPiece.move(board,  board.getCellById("6b")));
+      System.out.println("Available cell to move \n" + selectedPiece.getAvailableCellsToMove(board));
+      System.out.println("Move from 6b to 7b \n" + selectedPiece.move(board,  board.getCellById("7b")));
+      System.out.println(board.getAvailablePieces(Color.BLACK));
+
 
    }
 }

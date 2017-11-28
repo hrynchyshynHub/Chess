@@ -1,10 +1,12 @@
 package com.chess.model.pieces;
 
+import com.chess.model.Board;
 import com.chess.model.Cell;
 import com.chess.util.Color;
 import com.chess.util.Move;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,14 +14,16 @@ import java.util.List;
 /**
  * Created by ivan.hrynchyshyn on 17.11.2017.
  */
-@Getter @Setter
+@Getter
+@Setter
+@ToString
 public abstract class Piece {
 
     private Color color;
     private String id;
-    private Cell currentCell;
+    protected Cell currentCell;
     private boolean available; // not dead
-    protected List<Cell> availavleCellsToMove = new ArrayList<>();
+    protected List<String> availableCellsToMove = new ArrayList<>();
 
 
     public Piece(Color color, String id, boolean available) {
@@ -32,7 +36,10 @@ public abstract class Piece {
      * @return destination Cell
 
      */
-    public abstract Cell move(Cell state[][], Move move); /**state is board state in current time; */
+    public abstract Cell move(Board board, Cell destinationCell); /**state is board state in current time; */
+    public  List<String> getAvailableCellsToMove(Board board){
+        return null;
+    }; /**state is board state in current time; */
 
 
 }
