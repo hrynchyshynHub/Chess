@@ -16,8 +16,7 @@ import java.net.Socket;
 /**
  * Created by ivan.hrynchyshyn on 15.11.2017.
  */
-public class
-Server extends Thread{
+public class Server extends Thread{
      Socket socket;
      int connectionCount = 0;
      private static  final Logger logger = Logger.getLogger(Server.class);
@@ -46,7 +45,7 @@ Server extends Thread{
     public static void main(String[] args) {
         try(ServerSocket serverSocket = new ServerSocket(5556, 0 , InetAddress.getByName("localhost"));){
             int i = 0;
-            while (i <= 2){
+            while (!Thread.interrupted()){
                 new Server(serverSocket.accept(), i);
                 i++;
             }

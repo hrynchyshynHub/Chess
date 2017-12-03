@@ -18,7 +18,7 @@ import java.util.Queue;
  */
 @Getter
 @Setter
-public class Board {
+public class Board{
    private Cell[][] cells = new Cell[8][8];
    private Player whitePlayer;
    private Player blackPlayer;

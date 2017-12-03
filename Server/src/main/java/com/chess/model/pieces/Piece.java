@@ -22,6 +22,7 @@ public abstract class Piece {
     private Color color;
     private String id;
     protected Cell currentCell;
+    protected Cell defaultCell;
     private boolean available; // not dead
     protected List<String> availableCellsToMove = new ArrayList<>();
 
