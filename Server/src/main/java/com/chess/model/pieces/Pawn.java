@@ -3,18 +3,30 @@ package com.chess.model.pieces;
 import com.chess.model.Board;
 import com.chess.model.Cell;
 import com.chess.util.Color;
-import com.chess.util.Move;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.List;
 
 /**
  * Created by ivan.hrynchyshyn on 17.11.2017.
  */
 public class Pawn extends Piece {
-    private boolean isFirstMove = true;
 
-    public Pawn(Color color, String id, boolean available) {
-        super(color, id, available);
+    private boolean isFirstMove = true;
+    private static Deque<Cell> defaultCellStack = new ArrayDeque<>();
+
+    public Pawn(Color color) {
+        super(color);
+        if(color == Color.WHITE){
+            for(char latter = 'a'; latter <= 'h'; latter++){
+                getDefaultCellStack().push(new Cell("2" + latter));
+            }
+        }else{
+            for(char latter = 'a'; latter <= 'h'; latter++){
+                getDefaultCellStack().push(new Cell("7" + latter));
+            }
+        }
     }
 
     @Override
@@ -72,8 +84,12 @@ public class Pawn extends Piece {
         return availableCellsToMove;
     }
 
+    public Deque<Cell> getDefaultCellStack() {
+        return defaultCellStack;
+    }
+
     @Override
     public String toString() {
-        return "Pawn " + getColor();
+        return "Pawn";
     }
 }

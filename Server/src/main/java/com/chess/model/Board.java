@@ -1,30 +1,25 @@
 package com.chess.model;
 
 import com.chess.model.pieces.*;
-import com.chess.saver.AbstractSaver;
+import com.chess.saver.GameSaver;
 import com.chess.util.Color;
 import com.chess.util.Move;
 import com.chess.util.Player;
-import lombok.Getter;
-import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * Created by ivan.hrynchyshyn on 15.11.2017.
  */
-@Getter
-@Setter
+
 public class Board{
    private Cell[][] cells = new Cell[8][8];
    private Player whitePlayer;
    private Player blackPlayer;
    private boolean isWin;
    private Queue<Move> moves = new PriorityQueue<>();
-   private AbstractSaver saver;
+   private GameSaver saver;
+   Map<Piece, Cell> piecesOnBoard = new HashMap<>();
 
    private void initializeBoard() {
       boolean isWhite = true;
@@ -46,53 +41,41 @@ public class Board{
          System.out.println();
       }
 
-
-      initializePieces(1,2,Color.WHITE);
-      initializePieces(8,7,Color.BLACK);
-
-
    }
 
-   private void initializePieces(int mainRow, int pawnIndex, Color color){
-      Rock w_rock1 = new Rock(color, mainRow + "a", true);
-      getCellById(mainRow + "a").setPiece(w_rock1);
-      w_rock1.setCurrentCell(getCellById(mainRow + "a"));
-
-      Rock w_rock2 = new Rock(color, mainRow + "h", true);
-      getCellById(mainRow +"h").setPiece(w_rock2);
-      w_rock2.setCurrentCell(getCellById(mainRow + "h"));
-
-      Knight w_knight1 = new Knight(color, mainRow + "b", true);
-      getCellById(mainRow +"b").setPiece(w_knight1);
-      w_knight1.setCurrentCell(getCellById(mainRow +"b"));
-
-      Knight w_knight2 = new Knight(color, mainRow + "g", true);
-      getCellById(mainRow +"g").setPiece(w_knight2);
-      w_knight2.setCurrentCell(getCellById(mainRow +"g"));
-
-      Bishop w_bishop1 = new Bishop(color, mainRow + "c", true);
-      getCellById(mainRow +"c").setPiece(w_bishop1);
-      w_bishop1.setCurrentCell(getCellById(mainRow +"c"));
-
-      Bishop w_bishop2 = new Bishop(color, mainRow + "f", true);
-      getCellById(mainRow +"f").setPiece(w_bishop2);
-      w_bishop2.setCurrentCell(getCellById(mainRow +"f"));
-
-      King king = new King(color, mainRow + "e", true);
-      getCellById(mainRow +"e").setPiece(king);
-      king.setCurrentCell(getCellById(mainRow +"e"));
-
-      Queen queen = new Queen(color, mainRow + "d", true);
-      getCellById(mainRow +"d").setPiece(queen);
-      queen.setCurrentCell(getCellById(mainRow +"d"));
-
-      for(int i = 0; i < 8 ; i++){
-         char ascii = (char)(i + 97);
-         Pawn pawn = new Pawn(color, "" + pawnIndex + ascii, true );
-         getCellById(""+pawnIndex + ascii).setPiece(pawn);
-         pawn.setCurrentCell(getCellById(""+pawnIndex + ascii));
+   public void initializatePieces(Color color){
+      Rock rock1 = new Rock(color);
+      Rock rock2 = new Rock(color);
+      Knight knight1 = new Knight(color);
+      Knight knight2 = new Knight(color);
+      Bishop bishop1 = new Bishop(color);
+      Bishop bishop2 = new Bishop(color);
+      King king = new King(color);
+      Queen queen = new Queen(color);
+      List<Piece> pieces = new ArrayList<>();
+      pieces.add(rock1);
+      pieces.add(rock2);
+      pieces.add(knight1);
+      pieces.add(knight2);
+      pieces.add(bishop1);
+      pieces.add(bishop2);
+      pieces.add(king);
+      pieces.add(queen);
+      List<Piece> pawns = new ArrayList<>();
+      for(int i = 0; i < 8; i++){
+         pawns.add(new Pawn(color));
       }
+      pieces.addAll(pawns);
+      for(int chessCount = 0; chessCount < 16 ; chessCount++ ){
+            initializatePiece(pieces.get(chessCount));
+      }
+   }
 
+   public void initializatePiece(Piece piece){
+      Cell cell = getCellById(piece.getDefaultCellStack().pop().getId());
+      cell.setPiece(piece);
+      piece.setCurrentCell(cell);
+      piecesOnBoard.put(piece, cell);
    }
 
    public  void showBoard(){
@@ -131,11 +114,12 @@ public class Board{
    public static void main(String[] args) {
       Board board = new Board();
       board.initializeBoard();
-      System.out.println("\n\n\n\n");
+      board.initializatePieces(Color.WHITE);
+      board.initializatePieces(Color.BLACK);
       board.showBoard();
-      // get id from Client
+//       get id from Client
       Piece selectedPiece = board.getCellById("2b").getPiece();
-//      System.out.println(board.getAvailablePieces(Color.BLACK));
+      System.out.println(board.getAvailablePieces(Color.BLACK));
       System.out.println("Available cell to move \n" + selectedPiece.getAvailableCellsToMove(board));
       System.out.println("Move from 2b to 3b \n" + selectedPiece.move(board, board.getCellById("3b")));
       System.out.println("Available cell to move \n" + selectedPiece.getAvailableCellsToMove(board));

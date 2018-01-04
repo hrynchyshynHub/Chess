@@ -1,17 +1,13 @@
 package com.chess.util;
 
 
-import lombok.*;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by ivan.hrynchyshyn on 17.11.2017.
  */
-@Getter
-@Setter
-@ToString
-@EqualsAndHashCode
+
 public class Player {
     private static final AtomicInteger count = new AtomicInteger(0);
     private String username;
@@ -29,4 +25,55 @@ public class Player {
         this.id = count.incrementAndGet();
     }
 
+    public static AtomicInteger getCount() {
+        return count;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getSecondName() {
+        return secondName;
+    }
+
+    public void setSecondName(String secondName) {
+        this.secondName = secondName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
 }
