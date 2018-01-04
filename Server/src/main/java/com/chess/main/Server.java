@@ -2,6 +2,10 @@ package com.chess.main;
 
 //import com.chess.model.Board;
 //import com.chess.saver.GameSaver;
+import com.chess.model.Board;
+import com.chess.model.pieces.Piece;
+import com.chess.util.Color;
+import com.chess.util.Move;
 import com.google.inject.Inject;
 
 import java.io.IOException;
@@ -37,6 +41,7 @@ public class Server implements Runnable{
     }
 
     public void initServer() {
+        initBoard();
         try {
             this.selector = Selector.open();
             ServerSocketChannel serverChannel = ServerSocketChannel.open();
@@ -95,13 +100,27 @@ public class Server implements Runnable{
         System.arraycopy(buffer.array(), 0, data, 0, numRead);
         System.out.println("Got: " + new String(data));
     }
-
-//    @Inject
-//    public void setSaver(GameSaver saver) {
-//        this.saver = saver;
-//    }
-//
-//    public void saveGame(Board board) {
-//        saver.save(board);
-//    }
+    private static void initBoard(){
+        Board board = new Board();
+        board.initializeBoard();
+        board.initializatePieces(Color.WHITE);
+        board.initializatePieces(Color.BLACK);
+        board.showBoard();
+//       get id from Client
+        Piece selectedPiece = board.getCellById("2b").getPiece();
+        System.out.println(board.getAvailablePieces(Color.BLACK));
+        board.move(new Move(selectedPiece.getCurrentCell(), board.getCellById("5b")), selectedPiece);
+        System.out.println(selectedPiece.getCurrentCell());
+//        System.out.println("Available cell to move \n" + selectedPiece.getAvailableCellsToMove(board));
+//        System.out.println("Move from 2b to 3b \n" + selectedPiece.move(board, board.getCellById("3b")));
+//        System.out.println("Available cell to move \n" + selectedPiece.getAvailableCellsToMove(board));
+//        System.out.println("Move from 3b to 4b \n" + selectedPiece.move(board, board.getCellById("4b")));
+//        System.out.println("Available cell to move \n" + selectedPiece.getAvailableCellsToMove(board));
+//        System.out.println("Move from 4b to 5b \n" + selectedPiece.move(board,  board.getCellById("5b")));
+//        System.out.println("Available cell to move \n" + selectedPiece.getAvailableCellsToMove(board));
+//        System.out.println("Move from 5b to 6b \n" + selectedPiece.move(board,  board.getCellById("6b")));
+//        System.out.println("Available cell to move \n" + selectedPiece.getAvailableCellsToMove(board));
+//        System.out.println("Move from 6b to 7b \n" + selectedPiece.move(board,  board.getCellById("7b")));
+//        System.out.println(board.getAvailablePieces(Color.BLACK));
+    }
 }

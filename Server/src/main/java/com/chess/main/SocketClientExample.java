@@ -14,7 +14,7 @@ public class SocketClientExample implements Runnable{
         String threadName = Thread.currentThread().getName();
         // Send messages to server
         String [] messages = new String []
-                {threadName + ": Helo",threadName + ": Hi",threadName + ": Goodbye"};
+                {threadName + ": 2b",threadName + ": 3b",threadName + ": 4b"};
 
         for (int i = 0; i < messages.length; i++) {
             byte [] message = new String(messages [i]).getBytes();

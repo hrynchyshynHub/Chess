@@ -19,9 +19,9 @@ public class Board{
    private boolean isWin;
    private Queue<Move> moves = new PriorityQueue<>();
    private GameSaver saver;
-   Map<Piece, Cell> piecesOnBoard = new HashMap<>();
+   private Map<Piece, Cell> piecesOnBoardDefault = new HashMap<>();
 
-   private void initializeBoard() {
+   public void initializeBoard() {
       boolean isWhite = true;
       Color color = Color.WHITE;
       for (int i = 7; i >= 0; i--) {
@@ -71,13 +71,6 @@ public class Board{
       }
    }
 
-   public void initializatePiece(Piece piece){
-      Cell cell = getCellById(piece.getDefaultCellStack().pop().getId());
-      cell.setPiece(piece);
-      piece.setCurrentCell(cell);
-      piecesOnBoard.put(piece, cell);
-   }
-
    public  void showBoard(){
       for(int i =0; i < 8 ; i++){
          for(int j =0; j< 8 ; j++){
@@ -110,28 +103,18 @@ public class Board{
       }
       return availablePieces;
    }
-
-   public static void main(String[] args) {
-      Board board = new Board();
-      board.initializeBoard();
-      board.initializatePieces(Color.WHITE);
-      board.initializatePieces(Color.BLACK);
-      board.showBoard();
-//       get id from Client
-      Piece selectedPiece = board.getCellById("2b").getPiece();
-      System.out.println(board.getAvailablePieces(Color.BLACK));
-      System.out.println("Available cell to move \n" + selectedPiece.getAvailableCellsToMove(board));
-      System.out.println("Move from 2b to 3b \n" + selectedPiece.move(board, board.getCellById("3b")));
-      System.out.println("Available cell to move \n" + selectedPiece.getAvailableCellsToMove(board));
-      System.out.println("Move from 3b to 4b \n" + selectedPiece.move(board, board.getCellById("4b")));
-      System.out.println("Available cell to move \n" + selectedPiece.getAvailableCellsToMove(board));
-      System.out.println("Move from 4b to 5b \n" + selectedPiece.move(board,  board.getCellById("5b")));
-      System.out.println("Available cell to move \n" + selectedPiece.getAvailableCellsToMove(board));
-      System.out.println("Move from 5b to 6b \n" + selectedPiece.move(board,  board.getCellById("6b")));
-      System.out.println("Available cell to move \n" + selectedPiece.getAvailableCellsToMove(board));
-      System.out.println("Move from 6b to 7b \n" + selectedPiece.move(board,  board.getCellById("7b")));
-      System.out.println(board.getAvailablePieces(Color.BLACK));
-
-
+   public boolean move(Move move, Piece piece){
+      Cell afterMove = piece.move(this, move.getDestination());
+      if(move.getSource().getId().equalsIgnoreCase(afterMove.getId())){
+         return false;
+      }
+      return true;
    }
+   private void initializatePiece(Piece piece){
+      Cell cell = getCellById(piece.getDefaultCellStack().pop().getId());
+      cell.setPiece(piece);
+      piece.setCurrentCell(cell);
+      piecesOnBoardDefault.put(piece, cell);
+   }
+
 }
