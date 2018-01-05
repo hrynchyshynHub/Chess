@@ -1,5 +1,11 @@
 package com.chess.main;
 
+import com.chess.model.Cell;
+import com.chess.util.DataTransferObject;
+import com.chess.util.Move;
+import com.chess.util.Player;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
@@ -13,14 +19,22 @@ public class SocketClientExample implements Runnable{
         System.out.println("Client... started");
         String threadName = Thread.currentThread().getName();
         // Send messages to server
-        String [] messages = new String []
-                {threadName + ": 2b",threadName + ": 3b",threadName + ": 4b"};
 
-        for (int i = 0; i < messages.length; i++) {
-            byte [] message = new String(messages [i]).getBytes();
+        Move move = new Move(new Cell("2d"), new Cell("3d"));
+        Move move2 = new Move(new Cell("7d"), new Cell("6d"));
+
+        Player p1 = new Player("Ivan");
+        Player p2 = new Player("Pavlo");
+
+        DataTransferObject dataTransferObject = new DataTransferObject(move, p1);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        for (int i = 0; i < 3; i++) {
+            byte [] message = objectMapper.writeValueAsBytes(dataTransferObject);
             ByteBuffer buffer = ByteBuffer.wrap(message);
             client.write(buffer);
-            System.out.println(messages [i]);
+            System.out.println("Data sends");
             buffer.clear();
             Thread.sleep(5000);
         }

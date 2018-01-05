@@ -6,10 +6,13 @@ import com.chess.model.Board;
 import com.chess.model.GameBoard;
 import com.chess.model.pieces.Piece;
 import com.chess.util.Color;
+import com.chess.util.DataTransferObject;
 import com.chess.util.Move;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
@@ -59,10 +62,14 @@ public class Server implements Runnable{
 
     @Override
     public void run() {
-        initServer();
+        try{
+            initServer();
+        }catch (Exception e){
+            System.out.println(e);
+        }
     }
 
-    public void initServer() {
+    public void initServer() throws ClassNotFoundException{
         initBoard();
         try {
             this.selector = Selector.open();
@@ -104,7 +111,7 @@ public class Server implements Runnable{
         channel.register(this.selector, SelectionKey.OP_READ);
     }
 
-    private void read(SelectionKey key) throws IOException {
+    private void read(SelectionKey key) throws IOException, ClassNotFoundException {
         SocketChannel channel = (SocketChannel) key.channel();
         ByteBuffer buffer = ByteBuffer.allocate(BUFFER_SIZE);
         int numRead = -1;
@@ -118,9 +125,14 @@ public class Server implements Runnable{
             key.cancel();
             return;
         }
+        ObjectMapper objectMapper = new ObjectMapper();
         byte[] data = new byte[numRead];
         System.arraycopy(buffer.array(), 0, data, 0, numRead);
-        System.out.println("Got: " + new String(data));
+
+        DataTransferObject dt = objectMapper.readValue(data, DataTransferObject.class);
+
+        System.out.println(dt);
+
     }
     private void initBoard(){
         board.initializeBoard();

@@ -3,12 +3,14 @@ package com.chess.model;
 import com.chess.model.pieces.Piece;
 import com.chess.util.Color;
 
+import java.io.Serializable;
+
 
 /**
  * Created by ivan.hrynchyshyn on 17.11.2017.
  */
 
-public class Cell {
+public class Cell implements Serializable{
     private boolean isPosibleDestination;    /**available for next move*/
     private Piece piece;
     private int x;
@@ -17,6 +19,10 @@ public class Cell {
     private boolean isCheck = false;
     private Color color;
     private String id;
+
+
+    public Cell() {
+    }
 
     public Cell(int x, char y, Color color) {
         this.x = ++x;
