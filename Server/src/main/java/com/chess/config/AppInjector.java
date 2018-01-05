@@ -10,7 +10,7 @@ public class AppInjector  extends AbstractModule{
 
     @Override
     protected void configure() {
-//        bind(GameSaver.class).to(FileSaver.class);
+        bind(GameSaver.class).to(FileSaver.class);
         bind(GameBoard.class).to(Board.class);
     }
 }

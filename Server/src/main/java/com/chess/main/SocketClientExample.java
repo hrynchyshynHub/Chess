@@ -12,6 +12,8 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 
 public class SocketClientExample implements Runnable{
+    private static final int BUFFER_SIZE = 1024;
+
 
     public void startClient() throws IOException, InterruptedException {
         InetSocketAddress hostAddress = new InetSocketAddress("localhost", 9999);
@@ -26,18 +28,20 @@ public class SocketClientExample implements Runnable{
         Player p1 = new Player("Ivan");
         Player p2 = new Player("Pavlo");
 
-        DataTransferObject dataTransferObject = new DataTransferObject(move, p1);
+        DataTransferObject dataTransferObject1 = new DataTransferObject(move, 1);
+        DataTransferObject dataTransferObject2 = new DataTransferObject(move2, 2);
 
         ObjectMapper objectMapper = new ObjectMapper();
 
         for (int i = 0; i < 3; i++) {
-            byte [] message = objectMapper.writeValueAsBytes(dataTransferObject);
+            byte [] message = objectMapper.writeValueAsBytes(dataTransferObject1);
             ByteBuffer buffer = ByteBuffer.wrap(message);
             client.write(buffer);
             System.out.println("Data sends");
             buffer.clear();
             Thread.sleep(5000);
         }
+
         client.close();
     }
 

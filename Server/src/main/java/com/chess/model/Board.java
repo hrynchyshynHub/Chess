@@ -111,12 +111,17 @@ public class Board implements GameBoard{
    }
 
    @Override
-   public boolean move(Move move, Piece piece){
-      Cell afterMove = piece.move(this, move.getDestination());
-      if(move.getSource().getId().equalsIgnoreCase(afterMove.getId())){
+   public boolean move(Move move){
+      Piece piece = move.getSource().getPiece();
+      if(piece == null){ //TODO: Add condition for userColor and Piece color equeals;
          return false;
+      }else{
+         Cell afterMove = piece.move(this, move.getDestination());
+         if(move.getSource().getId().equalsIgnoreCase(afterMove.getId())){
+            return false;
+         }
+         return true;
       }
-      return true;
    }
 
    private void initializatePiece(Piece piece){

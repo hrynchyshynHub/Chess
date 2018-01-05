@@ -1,18 +1,13 @@
 package com.chess.main;
 
-//import com.chess.model.Board;
-//import com.chess.saver.GameSaver;
-import com.chess.model.Board;
+import com.chess.saver.GameSaver;
 import com.chess.model.GameBoard;
-import com.chess.model.pieces.Piece;
 import com.chess.util.Color;
 import com.chess.util.DataTransferObject;
-import com.chess.util.Move;
+import com.chess.util.Status;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
-
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
@@ -27,29 +22,29 @@ import java.util.*;
  * Created by ivan.hrynchyshyn on 15.11.2017.
  */
 public class Server implements Runnable{
-//    private GameSaver saver;
     private Selector selector;
     private static final int BUFFER_SIZE = 1024;
-    private Map<SocketChannel, List> dataMapper;
+    private Map<SocketChannel, List<byte[]>> dataMap;
     private InetSocketAddress hostIP;
-
+    @Inject
+    private GameSaver saver;
     @Inject
     private GameBoard board;
 
     public Server() {
         this.hostIP = new InetSocketAddress("localhost", 9999);
-        dataMapper = new HashMap<>();
+        dataMap = new HashMap<>();
     }
 
     public Server(GameBoard board) {
         this.board = board;
         this.hostIP = new InetSocketAddress("localhost", 9999);
-        dataMapper = new HashMap<>();
+        dataMap = new HashMap<>();
     }
 
     public Server(String address, int port) {
         this.hostIP = new InetSocketAddress(address, port);
-        dataMapper = new HashMap<>();
+        dataMap = new HashMap<>();
     }
 
     public GameBoard getBoard() {
@@ -69,7 +64,7 @@ public class Server implements Runnable{
         }
     }
 
-    public void initServer() throws ClassNotFoundException{
+    public void initServer() {
         initBoard();
         try {
             this.selector = Selector.open();
@@ -92,6 +87,8 @@ public class Server implements Runnable{
                         this.accept(key);
                     } else if (key.isReadable()) {
                         this.read(key);
+                    }else if(key.isWritable()){
+                        this.write(key);
                     }
                 }
             }
@@ -107,17 +104,17 @@ public class Server implements Runnable{
         Socket socket = channel.socket();
         SocketAddress remoteAddr = socket.getRemoteSocketAddress();
         System.out.println("Connected to: " + remoteAddr);
-        dataMapper.put(channel, new ArrayList());
+        dataMap.put(channel, new ArrayList<byte[]>());
         channel.register(this.selector, SelectionKey.OP_READ);
     }
 
-    private void read(SelectionKey key) throws IOException, ClassNotFoundException {
+    private void read(SelectionKey key) throws IOException {
         SocketChannel channel = (SocketChannel) key.channel();
         ByteBuffer buffer = ByteBuffer.allocate(BUFFER_SIZE);
         int numRead = -1;
         numRead = channel.read(buffer);
         if (numRead == -1) {
-            this.dataMapper.remove(channel);
+            this.dataMap.remove(channel);
             Socket socket = channel.socket();
             SocketAddress remoteAddr = socket.getRemoteSocketAddress();
             System.out.println("Connection closed by client: " + remoteAddr);
@@ -125,37 +122,59 @@ public class Server implements Runnable{
             key.cancel();
             return;
         }
+
         ObjectMapper objectMapper = new ObjectMapper();
         byte[] data = new byte[numRead];
         System.arraycopy(buffer.array(), 0, data, 0, numRead);
 
         DataTransferObject dt = objectMapper.readValue(data, DataTransferObject.class);
 
+        dt.setStatus(Status.OK);
+        byte [] messageFromServer = objectMapper.writeValueAsBytes(dt);
+
+        if(isValidMove(dt)){
+            broadcastMode(key, messageFromServer);
+            // TODO: write to all;
+
+        }else{
+            // TODO: return status error only for one client;
+        }
+
         System.out.println(dt);
 
     }
+
+    private void write(SelectionKey key) throws IOException {
+        SocketChannel channel = (SocketChannel) key.channel();
+        List<byte[]> pendingData = this.dataMap.get(channel);
+        Iterator<byte[]> items = pendingData.iterator();
+        while (items.hasNext()) {
+            byte[] item = items.next();
+            items.remove();
+            channel.write(ByteBuffer.wrap(item));
+        }
+        key.interestOps(SelectionKey.OP_READ);
+    }
+
+    private void broadcastMode(SelectionKey key, byte[] data) {
+//        SocketChannel channel = (SocketChannel) key.channel();
+//        List<byte[]> pendingData = this.dataMap.get(channel);
+//        pendingData.add(data);
+        for(Map.Entry<SocketChannel, List<byte[]>> entry : dataMap.entrySet()){
+            entry.getValue().add(data);
+        }
+        key.interestOps(SelectionKey.OP_WRITE);
+    }
+
+    private boolean isValidMove(DataTransferObject dt){
+        return board.move(dt.getMove());
+    }
+
     private void initBoard(){
         board.initializeBoard();
         board.initializatePieces(Color.WHITE);
         board.initializatePieces(Color.BLACK);
         board.showBoard();
-//       get id from Client
-        Piece selectedPiece = board.getCellById("2b").getPiece();
-        System.out.println(board.getAvailablePieces(Color.BLACK));
-        board.move(new Move(selectedPiece.getCurrentCell(), board.getCellById("5b")), selectedPiece);
-        System.out.println(selectedPiece.getCurrentCell());
-//        System.out.println("Available cell to move \n" + selectedPiece.getAvailableCellsToMove(board));
-//        System.out.println("Move from 2b to 3b \n" + selectedPiece.move(board, board.getCellById("3b")));
-//        System.out.println("Available cell to move \n" + selectedPiece.getAvailableCellsToMove(board));
-//        System.out.println("Move from 3b to 4b \n" + selectedPiece.move(board, board.getCellById("4b")));
-//        System.out.println("Available cell to move \n" + selectedPiece.getAvailableCellsToMove(board));
-//        System.out.println("Move from 4b to 5b \n" + selectedPiece.move(board,  board.getCellById("5b")));
-//        System.out.println("Available cell to move \n" + selectedPiece.getAvailableCellsToMove(board));
-//        System.out.println("Move from 5b to 6b \n" + selectedPiece.move(board,  board.getCellById("6b")));
-//        System.out.println("Available cell to move \n" + selectedPiece.getAvailableCellsToMove(board));
-//        System.out.println("Move from 6b to 7b \n" + selectedPiece.move(board,  board.getCellById("7b")));
-//        System.out.println(board.getAvailablePieces(Color.BLACK));
     }
-
 
 }

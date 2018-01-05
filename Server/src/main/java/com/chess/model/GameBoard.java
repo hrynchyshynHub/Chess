@@ -12,5 +12,5 @@ public interface GameBoard {
      void showBoard();
      Cell getCellById(String id);
      List<Piece> getAvailablePieces(Color color);
-     boolean move(Move move, Piece piece);
+     boolean move(Move move);
 }

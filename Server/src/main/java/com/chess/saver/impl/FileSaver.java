@@ -1,6 +1,6 @@
 package com.chess.saver.impl;
 
-import com.chess.model.Board;
+import com.chess.model.GameBoard;
 import com.chess.saver.GameSaver;
 import com.google.inject.Singleton;
 
@@ -8,7 +8,7 @@ import com.google.inject.Singleton;
 public class FileSaver implements GameSaver{
 
     @Override
-    public boolean save(Board board) {
+    public boolean save(GameBoard board) {
         System.out.println("File saver....");
         return false;
     }

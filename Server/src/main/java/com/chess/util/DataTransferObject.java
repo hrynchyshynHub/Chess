@@ -4,20 +4,15 @@ import java.io.Serializable;
 
 public class DataTransferObject implements Serializable{
     private Move move;
-    private Player player;
-    private int status;
+    private int playerId;
+    private Status status;
 
     public DataTransferObject() {
     }
 
-    public DataTransferObject(Move move, Player player) {
+    public DataTransferObject(Move move, int playerId) {
         this.move = move;
-        this.player = player;
-    }
-    public DataTransferObject(Move move, Player player, int status) {
-        this.move = move;
-        this.player = player;
-        this.status = status;
+        this.playerId = playerId;
     }
 
     public Move getMove() {
@@ -28,28 +23,19 @@ public class DataTransferObject implements Serializable{
         this.move = move;
     }
 
-    public Player getPlayer() {
-        return player;
+    public int getPlayerId() {
+        return playerId;
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
+    public void setPlayerId(int playerId) {
+        this.playerId = playerId;
     }
 
-    public int getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Status status) {
         this.status = status;
-    }
-
-    @Override
-    public String toString() {
-        return "DataTransferObject{" +
-                "move=" + move +
-                ", player=" + player +
-                ", status=" + status +
-                '}';
     }
 }

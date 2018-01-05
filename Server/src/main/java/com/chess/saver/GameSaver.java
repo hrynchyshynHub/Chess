@@ -1,10 +1,10 @@
 package com.chess.saver;
 
-import com.chess.model.Board;
+import com.chess.model.GameBoard;
 
 /**
  * Created by ivan.hrynchyshyn on 17.11.2017.
  */
 public interface GameSaver {
-     boolean save(Board board);
+     boolean save(GameBoard board);
 }
