@@ -5,14 +5,15 @@ import com.chess.saver.GameSaver;
 import com.chess.util.Color;
 import com.chess.util.Move;
 import com.chess.util.Player;
+import com.google.inject.Singleton;
 
 import java.util.*;
 
 /**
  * Created by ivan.hrynchyshyn on 15.11.2017.
  */
-
-public class Board{
+@Singleton
+public class Board implements GameBoard{
    private Cell[][] cells = new Cell[8][8];
    private Player whitePlayer;
    private Player blackPlayer;
@@ -21,6 +22,7 @@ public class Board{
    private GameSaver saver;
    private Map<Piece, Cell> piecesOnBoardDefault = new HashMap<>();
 
+   @Override
    public void initializeBoard() {
       boolean isWhite = true;
       Color color = Color.WHITE;
@@ -43,6 +45,7 @@ public class Board{
 
    }
 
+   @Override
    public void initializatePieces(Color color){
       Rock rock1 = new Rock(color);
       Rock rock2 = new Rock(color);
@@ -71,6 +74,7 @@ public class Board{
       }
    }
 
+   @Override
    public  void showBoard(){
       for(int i =0; i < 8 ; i++){
          for(int j =0; j< 8 ; j++){
@@ -82,6 +86,7 @@ public class Board{
       }
    }
 
+   @Override
    public Cell getCellById(String id){
       Cell foundCell = null;
       for(int i = 0; i < 8; i++){
@@ -92,6 +97,7 @@ public class Board{
       return foundCell;
    }
 
+   @Override
    public List<Piece> getAvailablePieces(Color color){
       List<Piece> availablePieces = new ArrayList<>();
       for(int i = 0; i < 8; i++){
@@ -103,6 +109,8 @@ public class Board{
       }
       return availablePieces;
    }
+
+   @Override
    public boolean move(Move move, Piece piece){
       Cell afterMove = piece.move(this, move.getDestination());
       if(move.getSource().getId().equalsIgnoreCase(afterMove.getId())){
@@ -110,6 +118,7 @@ public class Board{
       }
       return true;
    }
+
    private void initializatePiece(Piece piece){
       Cell cell = getCellById(piece.getDefaultCellStack().pop().getId());
       cell.setPiece(piece);

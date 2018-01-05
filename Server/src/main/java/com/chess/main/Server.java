@@ -3,6 +3,7 @@ package com.chess.main;
 //import com.chess.model.Board;
 //import com.chess.saver.GameSaver;
 import com.chess.model.Board;
+import com.chess.model.GameBoard;
 import com.chess.model.pieces.Piece;
 import com.chess.util.Color;
 import com.chess.util.Move;
@@ -29,10 +30,31 @@ public class Server implements Runnable{
     private Map<SocketChannel, List> dataMapper;
     private InetSocketAddress hostIP;
 
+    @Inject
+    private GameBoard board;
+
+    public Server() {
+        this.hostIP = new InetSocketAddress("localhost", 9999);
+        dataMapper = new HashMap<>();
+    }
+
+    public Server(GameBoard board) {
+        this.board = board;
+        this.hostIP = new InetSocketAddress("localhost", 9999);
+        dataMapper = new HashMap<>();
+    }
 
     public Server(String address, int port) {
         this.hostIP = new InetSocketAddress(address, port);
         dataMapper = new HashMap<>();
+    }
+
+    public GameBoard getBoard() {
+        return board;
+    }
+
+    public void setBoard(GameBoard board) {
+        this.board = board;
     }
 
     @Override
@@ -100,8 +122,7 @@ public class Server implements Runnable{
         System.arraycopy(buffer.array(), 0, data, 0, numRead);
         System.out.println("Got: " + new String(data));
     }
-    private static void initBoard(){
-        Board board = new Board();
+    private void initBoard(){
         board.initializeBoard();
         board.initializatePieces(Color.WHITE);
         board.initializatePieces(Color.BLACK);
@@ -123,4 +144,6 @@ public class Server implements Runnable{
 //        System.out.println("Move from 6b to 7b \n" + selectedPiece.move(board,  board.getCellById("7b")));
 //        System.out.println(board.getAvailablePieces(Color.BLACK));
     }
+
+
 }
