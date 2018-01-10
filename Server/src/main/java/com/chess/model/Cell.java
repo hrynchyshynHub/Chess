@@ -33,6 +33,8 @@ public class Cell implements Serializable{
 
     public Cell(String id) {
         this.id = id;
+        this.x = id.charAt(0) - 48;
+        this.y = id.charAt(1);
     }
 
     @Override
