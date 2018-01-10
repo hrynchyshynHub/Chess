@@ -5,6 +5,7 @@ import com.chess.model.Cell;
 import com.chess.util.Color;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 
@@ -54,7 +55,6 @@ public class Knight extends Piece {
     @Override
     public List<String> getAvailableCellsToMove(Board board) {
         availableCellsToMove.clear();
-        setCurrentCell(new Cell("5d"));
         Cell currentCell = getCurrentCell();
         int xPos = currentCell.getX();
         char yPos = currentCell.getY();
@@ -71,17 +71,30 @@ public class Knight extends Piece {
         String cell7 = new String(""+ (xPos - gMoveStepLow) + "" + (char)(yPos + gMoveStepHight));
         String cell8 = new String(""+ (xPos - gMoveStepLow) + "" + (char)(yPos - gMoveStepHight));
 
-        availableCellsToMove.add(cell1);
-        availableCellsToMove.add(cell2);
-        availableCellsToMove.add(cell3);
-        availableCellsToMove.add(cell4);
-        availableCellsToMove.add(cell5);
-        availableCellsToMove.add(cell6);
-        availableCellsToMove.add(cell7);
-        availableCellsToMove.add(cell8);
+        List<String> allCells = List.of(cell1,cell2,cell3,cell4,cell5,cell6,cell7,cell8);
+
+        for(int i = 0; i < allCells.size(); i++){
+            if(checkExistingOfCell(allCells.get(i), board)){
+                availableCellsToMove.add(allCells.get(i));
+            }
+        }
         return availableCellsToMove;
     }
-
+    public boolean checkExistingOfCell(String id, Board board){
+        Cell cell = board.getCellById(id);
+        if(cell != null) {
+            if(cell.getPiece() != null && cell.getPiece().getColor() != getColor()) {
+                return true;   // check of own figure in destination cell exist
+            }
+            else if(cell.getPiece() == null){
+                return true;
+            }else{
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
     @Override
     public String toString() {
         return "Knight";

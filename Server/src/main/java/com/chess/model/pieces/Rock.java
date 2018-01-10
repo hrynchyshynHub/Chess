@@ -32,7 +32,20 @@ public class Rock extends Piece {
 
     @Override
     public List<String> getAvailableCellsToMove(Board board) {
-        return null;
+        availableCellsToMove.clear();
+        setCurrentCell(new Cell("5d"));
+        Cell currentCell = getCurrentCell();
+        int xPos = currentCell.getX();
+        char yPos = currentCell.getY();
+
+        for(int i = 1; i <= 8 ; i++){
+            System.out.println(new String(i + "" + yPos));
+        }
+        for(char a = 'a'; a <= 'h'; a++){
+            System.out.println(new String(xPos + "" + a));
+        }
+        //TODO: implement logic for check piece barrier and adding to list availableCellsToMove;
+        return availableCellsToMove;
     }
 
     public Deque<Cell> getDefaultCellStack() {
@@ -43,5 +56,11 @@ public class Rock extends Piece {
     @Override
     public String toString() {
         return "Rock";
+    }
+
+    public static void main(String[] args) {
+        Board b =new Board();
+        Rock rock = new Rock(Color.WHITE);
+        rock.getAvailableCellsToMove(b);
     }
 }
